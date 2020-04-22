@@ -82,6 +82,12 @@
     </li>
         </ul>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#system-configuration">System configuration</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#disable-device-wake-up-from-suspend">Disable device wake-up from suspend</a>
+    </li>
+        </ul>
+    </li>
     </ul>
                     </li>
                 </ul>
@@ -212,6 +218,18 @@ make &amp;&amp; sudo make install
 sudo depmod -a
 sudo modprobe v4l2loopback
 </code></pre>
+
+<h2 id="system-configuration">System configuration</h2>
+<h3 id="disable-device-wake-up-from-suspend">Disable device wake-up from suspend</h3>
+<p>You can disable wake-up from suspend changing the properties of the
+<code>/proc/acpi/wakeup</code> file. For instance, <code>sudo echo XHC &gt; /proc/acpi/wakeup</code> will
+toggle the state of the device "XHC". This change is however not permanent. To
+do so, I tried to use the <code>/etc/rc.d/rc.local</code> file, or place an bash script in
+<code>/etc/rc.d/init.d</code> and enable/start the rc-local service (<code>sudo systemctl rc-local</code>) but it does not work.</p>
+<p>The final solution was to use the UDEV rules as described
+<a href="https://unix.stackexchange.com/a/532839">here</a>. The advantages here are 1) the
+changes are permanent and no struggle, 2) you disable the specific peripheral
+device while disabling a device in <code>wakeup</code> might mean disabling the whole USB controller.</p>
               
             </div>
           </div>
