@@ -90,6 +90,8 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#disable-device-wake-up-from-suspend">Disable device wake-up from suspend</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#add-a-application-shortcut">Add a application shortcut</a>
+    </li>
         </ul>
     </li>
     </ul>
@@ -235,6 +237,21 @@ do so, I tried to use the <code>/etc/rc.d/rc.local</code> file, or place an bash
 <a href="https://unix.stackexchange.com/a/532839">here</a>. The advantages here are 1) the
 changes are permanent and no struggle, 2) you disable the specific peripheral
 device while disabling a device in <code>wakeup</code> might mean disabling the whole USB controller.</p>
+<h3 id="add-a-application-shortcut">Add a application shortcut</h3>
+<p>First, you need to create a desktop file that contains the information of your
+application, for instance:</p>
+<pre><code>[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Spyder 4.0
+Comment=Spyder application
+Exec=bash -c &quot;source /home/christian-nils/miniconda3/bin/activate myenv &amp;&amp; spyder &amp;&quot;
+Icon=/home/christian-nils/miniconda3/envs/myenv/lib/python3.7/site-packages/spyder/images/spyder.svg
+Terminal=false
+</code></pre>
+
+<p>Second, save the file to <code>/usr/share/applications/</code>.</p>
+<p>Third, and last, run the command <code>sudo update-desktop-database</code>.</p>
               
             </div>
           </div>
