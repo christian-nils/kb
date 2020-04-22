@@ -54,11 +54,13 @@
                 <ul class="current">
                     <li class="toctree-l1 current"><a class="reference internal current" href="./">Fedora 32</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#install-nvidia-graphics-drivers-on-hp-zenbook-u5">Install NVIDIA graphics drivers on HP ZenBook U5</a>
+    <li class="toctree-l2"><a class="reference internal" href="#cuda-and-cudnn">CUDA and cuDNN</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install-cuda">Install CUDA</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#install-cuda">Install CUDA</a>
+    <li class="toctree-l3"><a class="reference internal" href="#install-cudnn">Install cuDNN</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#install-cudnn">Install cuDNN</a>
+        </ul>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a>
         <ul>
@@ -84,6 +86,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#system-configuration">System configuration</a>
         <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</a>
+    </li>
     <li class="toctree-l3"><a class="reference internal" href="#disable-device-wake-up-from-suspend">Disable device wake-up from suspend</a>
     </li>
         </ul>
@@ -125,12 +129,8 @@
               
                 <h1 id="fedora-32">Fedora 32</h1>
 <p>Below are listed all the snippets that once helped me to solve issues.</p>
-<h2 id="install-nvidia-graphics-drivers-on-hp-zenbook-u5">Install NVIDIA graphics drivers on HP ZenBook U5</h2>
-<p>Follow the instructions from <a href="https://rpmfusion.org/Howto/NVIDIA#Current_GeForce.2FQuadro.2FTesla">rpmfusion.org's page</a>.
-Alternatively, you can
-also install the official NVIDIA drivers using their installer file. Do not
-forget to blacklist the Nouveau driver before.</p>
-<h2 id="install-cuda">Install CUDA</h2>
+<h2 id="cuda-and-cudnn">CUDA and cuDNN</h2>
+<h3 id="install-cuda">Install CUDA</h3>
 <p>To install CUDA (version 10.2 at the time of writing), I have followed the
 instructions listed on <a href="https://rpmfusion.org/Howto/CUDA">rpmfusion.org's CUDA
 page</a>.</p>
@@ -160,7 +160,7 @@ sudo make install
 
 <p>Then add <code>/usr/local/lib</code> in your \$LD_LIBRARY_PATH variable. You can append the
 path to the variable inside your <code>~/.bashrc</code> file.</p>
-<h2 id="install-cudnn">Install cuDNN</h2>
+<h3 id="install-cudnn">Install cuDNN</h3>
 <p>Follow the instructions
 <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#installlinux-rpm">here</a>.
 Check by compiling the <code>mnistCUDNN</code> sample program that cuDNN was properly installed</p>
@@ -220,6 +220,11 @@ sudo modprobe v4l2loopback
 </code></pre>
 
 <h2 id="system-configuration">System configuration</h2>
+<h3 id="install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</h3>
+<p>Follow the instructions from <a href="https://rpmfusion.org/Howto/NVIDIA#Current_GeForce.2FQuadro.2FTesla">rpmfusion.org's page</a>.
+Alternatively, you can
+also install the official NVIDIA drivers using their installer file. Do not
+forget to blacklist the Nouveau driver before.</p>
 <h3 id="disable-device-wake-up-from-suspend">Disable device wake-up from suspend</h3>
 <p>You can disable wake-up from suspend changing the properties of the
 <code>/proc/acpi/wakeup</code> file. For instance, <code>sudo echo XHC &gt; /proc/acpi/wakeup</code> will
