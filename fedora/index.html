@@ -92,6 +92,10 @@
     </li>
     <li class="toctree-l3"><a class="reference internal" href="#add-a-application-shortcut">Add a application shortcut</a>
     </li>
+    <li class="toctree-l3"><a class="reference internal" href="#replace-a-package-without-breaking-the-system">Replace a package without breaking the system</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#install-microsoft-fonts-on-fedora">Install Microsoft Fonts on Fedora</a>
+    </li>
         </ul>
     </li>
     </ul>
@@ -252,6 +256,21 @@ Terminal=false
 
 <p>Second, save the file to <code>/usr/share/applications/</code>.</p>
 <p>Third, and last, run the command <code>sudo update-desktop-database</code>.</p>
+<h3 id="replace-a-package-without-breaking-the-system">Replace a package without breaking the system</h3>
+<p>If you execute <code>sudo dnf remove pulseaudio-module-bluetooth</code> you may remove the
+whole gnome desktop. A way to replace this package without breaking the system
+is to use a DNF shell as below:</p>
+<pre><code>sudo dnf shell
+&gt; dnf remove pulseaudio-module-bluetooth
+&gt; dnf install pulseaudio-module-bluetooth-freeworld
+&gt; run
+</code></pre>
+
+<p>The module bluetooth-freeworld will replace the module bluetooth without
+breaking the dependencies.</p>
+<h3 id="install-microsoft-fonts-on-fedora">Install Microsoft Fonts on Fedora</h3>
+<pre><code>sudo dnf install -y mscore-fonts
+</code></pre>
               
             </div>
           </div>
