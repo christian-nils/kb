@@ -2,14 +2,9 @@
 
 Below are listed all the snippets that once helped me to solve issues.
 
-## Install NVIDIA graphics drivers on HP ZenBook U5
+## CUDA and cuDNN
 
-Follow the instructions from [rpmfusion.org's page](https://rpmfusion.org/Howto/NVIDIA#Current_GeForce.2FQuadro.2FTesla).
-Alternatively, you can
-also install the official NVIDIA drivers using their installer file. Do not
-forget to blacklist the Nouveau driver before.
-
-## Install CUDA
+### Install CUDA
 
 To install CUDA (version 10.2 at the time of writing), I have followed the
 instructions listed on [rpmfusion.org's CUDA
@@ -47,7 +42,7 @@ sudo make install
 Then add `/usr/local/lib` in your \$LD_LIBRARY_PATH variable. You can append the
 path to the variable inside your `~/.bashrc` file.
 
-## Install cuDNN
+### Install cuDNN
 
 Follow the instructions
 [here](https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#installlinux-rpm).
@@ -126,4 +121,68 @@ cd v4l2loopback
 make && sudo make install
 sudo depmod -a
 sudo modprobe v4l2loopback
+```
+
+## System configuration
+
+### Install NVIDIA graphics drivers for (Quadro T1000 Notebook)
+
+Follow the instructions from [rpmfusion.org's page](https://rpmfusion.org/Howto/NVIDIA#Current_GeForce.2FQuadro.2FTesla).
+Alternatively, you can
+also install the official NVIDIA drivers using their installer file. Do not
+forget to blacklist the Nouveau driver before.
+
+### Disable device wake-up from suspend
+
+You can disable wake-up from suspend changing the properties of the
+`/proc/acpi/wakeup` file. For instance, `sudo echo XHC > /proc/acpi/wakeup` will
+toggle the state of the device "XHC". This change is however not permanent. To
+do so, I tried to use the `/etc/rc.d/rc.local` file, or place an bash script in
+`/etc/rc.d/init.d` and enable/start the rc-local service (`sudo systemctl rc-local`) but it does not work.
+
+The final solution was to use the UDEV rules as described
+[here](https://unix.stackexchange.com/a/532839). The advantages here are 1) the
+changes are permanent and no struggle, 2) you disable the specific peripheral
+device while disabling a device in `wakeup` might mean disabling the whole USB controller.
+
+### Add a application shortcut
+
+First, you need to create a desktop file that contains the information of your
+application, for instance:
+
+```
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Spyder 4.0
+Comment=Spyder application
+Exec=bash -c "source /home/christian-nils/miniconda3/bin/activate myenv && spyder &"
+Icon=/home/christian-nils/miniconda3/envs/myenv/lib/python3.7/site-packages/spyder/images/spyder.svg
+Terminal=false
+```
+
+Second, save the file to `/usr/share/applications/`.
+
+Third, and last, run the command `sudo update-desktop-database`.
+
+### Replace a package without breaking the system
+
+If you execute `sudo dnf remove pulseaudio-module-bluetooth` you may remove the
+whole gnome desktop. A way to replace this package without breaking the system
+is to use a DNF shell as below:
+
+```
+sudo dnf shell
+> dnf remove pulseaudio-module-bluetooth
+> dnf install pulseaudio-module-bluetooth-freeworld
+> run
+```
+
+The module bluetooth-freeworld will replace the module bluetooth without
+breaking the dependencies.
+
+### Install Microsoft Fonts on Fedora
+
+```
+sudo dnf install -y mscore-fonts
 ```

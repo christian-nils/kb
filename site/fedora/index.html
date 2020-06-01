@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Fedora 32 - Knowledge base</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Fedora 32";
+    var mkdocs_page_input_path = "fedora.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Knowledge base</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Fedora 32</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#cuda-and-cudnn">CUDA and cuDNN</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install-cuda">Install CUDA</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#install-cudnn">Install cuDNN</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cgroups-v2-issue">cgroups v2 issue</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#ubuntu-image-with-cuda-and-cudnn">Ubuntu image, with CUDA and cuDNN</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#internet-connectivity-problems-within-container">Internet connectivity problems within container</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#podman">Podman</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#make-the-gpu-accessible-by-the-container">Make the GPU accessible by the container</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#v4l2loopback">v4l2loopback</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install">Install</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#system-configuration">System configuration</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#disable-device-wake-up-from-suspend">Disable device wake-up from suspend</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#add-a-application-shortcut">Add a application shortcut</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#replace-a-package-without-breaking-the-system">Replace a package without breaking the system</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#install-microsoft-fonts-on-fedora">Install Microsoft Fonts on Fedora</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Knowledge base</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Fedora 32</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="fedora-32">Fedora 32</h1>
+<p>Below are listed all the snippets that once helped me to solve issues.</p>
+<h2 id="cuda-and-cudnn">CUDA and cuDNN</h2>
+<h3 id="install-cuda">Install CUDA</h3>
+<p>To install CUDA (version 10.2 at the time of writing), I have followed the
+instructions listed on <a href="https://rpmfusion.org/Howto/CUDA">rpmfusion.org's CUDA
+page</a>.</p>
+<pre><code>sudo dnf config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/fedora29/x86_64/cuda-fedora29.repo
+sudo dnf clean all
+sudo dnf install cuda
+</code></pre>
+
+<p>For older versions of Fedora (&gt;29), you need to install the version 8 of the <code>gcc</code>
+compiler that is compatible with the CUDA toolkit (otherwise compilations will fail), you can use the following COPR repository:</p>
+<pre><code>sudo dnf copr enable kwizart/cuda-gcc-10.1
+sudo dnf install cuda-gcc cuda-gcc-c++
+</code></pre>
+
+<p>Note that (as of April 20th, 2020) the build for Fedora 32 of <code>cuda-gcc</code> was a
+bit too old and you may have a problem with the <code>libmpfr</code> library. It requires
+the <code>libmpfr.so.4</code>, while <code>libmpfr.so.6</code> is available out-of-the-box in Fedora 32. To make it work, one way is to do the following:</p>
+<pre><code># Build &amp; install MPFR 3.1.6
+wget https://www.mpfr.org/mpfr-3.1.6/mpfr-3.1.6.tar.gz
+tar -xvf mpfr-3.1.6.tar.gz
+cd mpfr-3.1.6
+./configure
+make
+make check
+sudo make install
+</code></pre>
+
+<p>Then add <code>/usr/local/lib</code> in your \$LD_LIBRARY_PATH variable. You can append the
+path to the variable inside your <code>~/.bashrc</code> file.</p>
+<h3 id="install-cudnn">Install cuDNN</h3>
+<p>Follow the instructions
+<a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#installlinux-rpm">here</a>.
+Check by compiling the <code>mnistCUDNN</code> sample program that cuDNN was properly installed</p>
+<h2 id="docker">Docker</h2>
+<h3 id="cgroups-v2-issue">cgroups v2 issue</h3>
+<p>At the moment of writing, the official docker package (version 19.03.8) does not
+allow the use of <em>cgroups V2</em> that is enabled by default in Fedora 32. Note that
+<em>cgroups V2</em> will most likely be supported by the version 20.x of docker. So
+the commands below will need to be undone when docker will be officially
+released.</p>
+<p>Solution was mentioned <a href="https://github.com/docker/for-linux/issues/665#issuecomment-533998047">there</a></p>
+<pre><code># Open the GRUB default settings
+sudo gedit /etc/default/grub
+# Append GRUB_CMDLINE_LINUX with systemd.unified_cgroup_hierarchy=0
+# Refresh GRUB
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+</code></pre>
+
+<p>You need to reboot, and then Docker 19.x will work with Fedora 32.</p>
+<p>Note that <code>podman</code> may be a good replacement of <code>docker</code>.</p>
+<h3 id="ubuntu-image-with-cuda-and-cudnn">Ubuntu image, with CUDA and cuDNN</h3>
+<p>You can use NVIDIA docker image
+<code>nvcr.io/nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04</code>. Note that here the
+version of Cuda is 10.0 because I was trying to use <code>tfjs-node-gpu</code> that only
+works with Cuda 10.0 (and not higher).</p>
+<p>To make the container recognize the Quadro T1000 Notebook of the HP zenBook U5
+and make sure that tensorflow finds <em>libcuda</em> (it will fix the same issue with <code>podman</code>),
+you need to do install the <code>nvidia-docker</code> package. There is no official release
+for Fedora 32, but your can do the <a href="https://github.com/NVIDIA/nvidia-docker/issues/553#issuecomment-381075335">following</a>:</p>
+<pre><code>curl -s -L https://nvidia.github.io/nvidia-docker/centos7/nvidia-docker.repo | \
+  sudo tee /etc/yum.repos.d/nvidia-docker.repo
+sudo dnf install nvidia-docker2
+sudo pkill -SIGHUP dockerd
+# To test that it works, you can use NVIDIA's cuda image
+sudo docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
+</code></pre>
+
+<h3 id="internet-connectivity-problems-within-container">Internet connectivity problems within container</h3>
+<p>If you want to make sure that your
+container reach internet, add <code>--network=host</code> when calling <code>docker run</code>.</p>
+<h2 id="podman">Podman</h2>
+<h3 id="make-the-gpu-accessible-by-the-container">Make the GPU accessible by the container</h3>
+<p>If you do not give access to the GPU, the container will not be able to use it.
+For instance, if you plan to use TensorFlow with GPU, it will not work without
+doing the following:</p>
+<pre><code>sudo podman run --privileged #...
+</code></pre>
+
+<h2 id="v4l2loopback">v4l2loopback</h2>
+<h3 id="install">Install</h3>
+<pre><code>sudo dnf install gcc kernel-devel git
+git clone https://&lt;v4l2loopback-repo&gt;/v4l2loopback.git
+cd v4l2loopback
+make &amp;&amp; sudo make install
+sudo depmod -a
+sudo modprobe v4l2loopback
+</code></pre>
+
+<h2 id="system-configuration">System configuration</h2>
+<h3 id="install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</h3>
+<p>Follow the instructions from <a href="https://rpmfusion.org/Howto/NVIDIA#Current_GeForce.2FQuadro.2FTesla">rpmfusion.org's page</a>.
+Alternatively, you can
+also install the official NVIDIA drivers using their installer file. Do not
+forget to blacklist the Nouveau driver before.</p>
+<h3 id="disable-device-wake-up-from-suspend">Disable device wake-up from suspend</h3>
+<p>You can disable wake-up from suspend changing the properties of the
+<code>/proc/acpi/wakeup</code> file. For instance, <code>sudo echo XHC &gt; /proc/acpi/wakeup</code> will
+toggle the state of the device "XHC". This change is however not permanent. To
+do so, I tried to use the <code>/etc/rc.d/rc.local</code> file, or place an bash script in
+<code>/etc/rc.d/init.d</code> and enable/start the rc-local service (<code>sudo systemctl rc-local</code>) but it does not work.</p>
+<p>The final solution was to use the UDEV rules as described
+<a href="https://unix.stackexchange.com/a/532839">here</a>. The advantages here are 1) the
+changes are permanent and no struggle, 2) you disable the specific peripheral
+device while disabling a device in <code>wakeup</code> might mean disabling the whole USB controller.</p>
+<h3 id="add-a-application-shortcut">Add a application shortcut</h3>
+<p>First, you need to create a desktop file that contains the information of your
+application, for instance:</p>
+<pre><code>[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=Spyder 4.0
+Comment=Spyder application
+Exec=bash -c &quot;source /home/christian-nils/miniconda3/bin/activate myenv &amp;&amp; spyder &amp;&quot;
+Icon=/home/christian-nils/miniconda3/envs/myenv/lib/python3.7/site-packages/spyder/images/spyder.svg
+Terminal=false
+</code></pre>
+
+<p>Second, save the file to <code>/usr/share/applications/</code>.</p>
+<p>Third, and last, run the command <code>sudo update-desktop-database</code>.</p>
+<h3 id="replace-a-package-without-breaking-the-system">Replace a package without breaking the system</h3>
+<p>If you execute <code>sudo dnf remove pulseaudio-module-bluetooth</code> you may remove the
+whole gnome desktop. A way to replace this package without breaking the system
+is to use a DNF shell as below:</p>
+<pre><code>sudo dnf shell
+&gt; dnf remove pulseaudio-module-bluetooth
+&gt; dnf install pulseaudio-module-bluetooth-freeworld
+&gt; run
+</code></pre>
+
+<p>The module bluetooth-freeworld will replace the module bluetooth without
+breaking the dependencies.</p>
+<h3 id="install-microsoft-fonts-on-fedora">Install Microsoft Fonts on Fedora</h3>
+<pre><code>sudo dnf install -y mscore-fonts
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
