@@ -180,9 +180,3 @@ sudo dnf shell
 
 The module bluetooth-freeworld will replace the module bluetooth without
 breaking the dependencies.
-
-### Install Microsoft Fonts on Fedora
-
-```
-sudo dnf install -y mscore-fonts
-```
