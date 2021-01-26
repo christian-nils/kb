@@ -30,6 +30,11 @@ try {
 }
 ```
 
+Here, we are using `SPI1` which corresponds to the Hardware SPI. If you want to
+use the Software SPI (i.e. bit-banging techniques), you can create a SPI object
+via `var spi = new SPI();`. Note that it will be way slower than the Hardware
+connection.
+
 ## Compile Espruino for Puck.JS
 
 First you need to GIT clone the official repository.

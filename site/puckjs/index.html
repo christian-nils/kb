@@ -52,6 +52,10 @@
                     </li>
                 </ul>
                 <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../FreeCAD/">FreeCAD</a>
+                    </li>
+                </ul>
+                <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../fedora/">Fedora 32</a>
                     </li>
                 </ul>
@@ -127,6 +131,10 @@ try {
 }
 </code></pre>
 
+<p>Here, we are using <code>SPI1</code> which corresponds to the Hardware SPI. If you want to
+use the Software SPI (i.e. bit-banging techniques), you can create a SPI object
+via <code>var spi = new SPI();</code>. Note that it will be way slower than the Hardware
+connection.</p>
 <h2 id="compile-espruino-for-puckjs">Compile Espruino for Puck.JS</h2>
 <p>First you need to GIT clone the official repository.</p>
 <pre><code class="bash">git clone https://github.com/espruino/Espruino.git
