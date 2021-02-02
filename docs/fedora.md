@@ -1,3 +1,22 @@
+# Fedora 33
+
+## Installing MBDYN
+
+There is an issue when compiling where a type mismatch error is raised when
+compiling the file `utils/femgen_f.f`. This error is due to GCC10
+(https://github.com/Unidata/netcdf-fortran/issues/212#issuecomment-600191468).
+
+To fix this, you will need to pass `-fallow-argument-mismatch` when compiling.
+
+You can add the following at the beginning of the file `configure` in the
+MBDyn repository, and then follow the official instructions:
+
+```bash
+# To fix the type mismatch error when compiling Fortran files due to GCC10
+FCFLAGS='-fallow-argument-mismatch'
+FFLAGS='-fallow-argument-mismatch'
+```
+
 # Fedora 32
 
 Below are listed all the snippets that once helped me to solve issues.

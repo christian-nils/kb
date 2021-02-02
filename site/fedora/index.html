@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Fedora 32 - Knowledge base</title>
+  <title>Fedora 33 - Knowledge base</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Fedora 32";
+    var mkdocs_page_name = "Fedora 33";
     var mkdocs_page_input_path = "fedora.md";
     var mkdocs_page_url = null;
   </script>
@@ -56,49 +56,9 @@
                     </li>
                 </ul>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Fedora 32</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Fedora 33</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#cuda-and-cudnn">CUDA and cuDNN</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#install-cuda">Install CUDA</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#install-cudnn">Install cuDNN</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#docker">Docker</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#cgroups-v2-issue">cgroups v2 issue</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#ubuntu-image-with-cuda-and-cudnn">Ubuntu image, with CUDA and cuDNN</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#internet-connectivity-problems-within-container">Internet connectivity problems within container</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#podman">Podman</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#make-the-gpu-accessible-by-the-container">Make the GPU accessible by the container</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#v4l2loopback">v4l2loopback</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#install">Install</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#system-configuration">System configuration</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#disable-device-wake-up-from-suspend">Disable device wake-up from suspend</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#add-a-application-shortcut">Add a application shortcut</a>
-    </li>
-    <li class="toctree-l3"><a class="reference internal" href="#replace-a-package-without-breaking-the-system">Replace a package without breaking the system</a>
-    </li>
-        </ul>
+    <li class="toctree-l2"><a class="reference internal" href="#installing-mbdyn">Installing MBDYN</a>
     </li>
     </ul>
                     </li>
@@ -128,7 +88,7 @@
     
       
     
-    <li>Fedora 32</li>
+    <li>Fedora 33</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -139,7 +99,20 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="fedora-32">Fedora 32</h1>
+                <h1 id="fedora-33">Fedora 33</h1>
+<h2 id="installing-mbdyn">Installing MBDYN</h2>
+<p>There is an issue when compiling where a type mismatch error is raised when
+compiling the file <code>utils/femgen_f.f</code>. This error is due to GCC10
+(https://github.com/Unidata/netcdf-fortran/issues/212#issuecomment-600191468).</p>
+<p>To fix this, you will need to pass <code>-fallow-argument-mismatch</code> when compiling.</p>
+<p>You can add the following at the beginning of the file <code>configure</code> in the
+MBDyn repository, and then follow the official instructions:</p>
+<pre><code class="bash"># To fix the type mismatch error when compiling Fortran files due to GCC10
+FCFLAGS='-fallow-argument-mismatch'
+FFLAGS='-fallow-argument-mismatch'
+</code></pre>
+
+<h1 id="fedora-32">Fedora 32</h1>
 <p>Below are listed all the snippets that once helped me to solve issues.</p>
 <h2 id="cuda-and-cudnn">CUDA and cuDNN</h2>
 <h3 id="install-cuda">Install CUDA</h3>
