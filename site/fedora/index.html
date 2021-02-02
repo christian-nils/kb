@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Fedora 33 - Knowledge base</title>
+  <title>Fedora - Knowledge base</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,7 +18,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Fedora 33";
+    var mkdocs_page_name = "Fedora";
     var mkdocs_page_input_path = "fedora.md";
     var mkdocs_page_url = null;
   </script>
@@ -56,9 +56,59 @@
                     </li>
                 </ul>
                 <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Fedora 33</a>
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Fedora</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#installing-mbdyn">Installing MBDYN</a>
+    <li class="toctree-l2"><a class="reference internal" href="#fedora-33">Fedora 33</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#installing-mbdyn">Installing MBDYN</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#fedora-32">Fedora 32</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#cuda-and-cudnn">CUDA and cuDNN</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#install-cuda">Install CUDA</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#install-cudnn">Install cuDNN</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#docker">Docker</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#cgroups-v2-issue">cgroups v2 issue</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#ubuntu-image-with-cuda-and-cudnn">Ubuntu image, with CUDA and cuDNN</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#internet-connectivity-problems-within-container">Internet connectivity problems within container</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#podman">Podman</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#make-the-gpu-accessible-by-the-container">Make the GPU accessible by the container</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#v4l2loopback">v4l2loopback</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#install">Install</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#system-configuration">System configuration</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#disable-device-wake-up-from-suspend">Disable device wake-up from suspend</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#add-a-application-shortcut">Add a application shortcut</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#replace-a-package-without-breaking-the-system">Replace a package without breaking the system</a>
+    </li>
+        </ul>
+    </li>
+        </ul>
     </li>
     </ul>
                     </li>
@@ -88,7 +138,7 @@
     
       
     
-    <li>Fedora 33</li>
+    <li>Fedora</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -99,8 +149,9 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="fedora-33">Fedora 33</h1>
-<h2 id="installing-mbdyn">Installing MBDYN</h2>
+                <h1 id="fedora">Fedora</h1>
+<h2 id="fedora-33">Fedora 33</h2>
+<h3 id="installing-mbdyn">Installing MBDYN</h3>
 <p>There is an issue when compiling where a type mismatch error is raised when
 compiling the file <code>utils/femgen_f.f</code>. This error is due to GCC10
 (https://github.com/Unidata/netcdf-fortran/issues/212#issuecomment-600191468).</p>
@@ -112,28 +163,28 @@ FCFLAGS='-fallow-argument-mismatch'
 FFLAGS='-fallow-argument-mismatch'
 </code></pre>
 
-<h1 id="fedora-32">Fedora 32</h1>
+<h2 id="fedora-32">Fedora 32</h2>
 <p>Below are listed all the snippets that once helped me to solve issues.</p>
-<h2 id="cuda-and-cudnn">CUDA and cuDNN</h2>
-<h3 id="install-cuda">Install CUDA</h3>
+<h3 id="cuda-and-cudnn">CUDA and cuDNN</h3>
+<h4 id="install-cuda">Install CUDA</h4>
 <p>To install CUDA (version 10.2 at the time of writing), I have followed the
 instructions listed on <a href="https://rpmfusion.org/Howto/CUDA">rpmfusion.org's CUDA
 page</a>.</p>
-<pre><code>sudo dnf config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/fedora29/x86_64/cuda-fedora29.repo
+<pre><code class="bash">sudo dnf config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/fedora29/x86_64/cuda-fedora29.repo
 sudo dnf clean all
 sudo dnf install cuda
 </code></pre>
 
 <p>For older versions of Fedora (&gt;29), you need to install the version 8 of the <code>gcc</code>
 compiler that is compatible with the CUDA toolkit (otherwise compilations will fail), you can use the following COPR repository:</p>
-<pre><code>sudo dnf copr enable kwizart/cuda-gcc-10.1
+<pre><code class="bash">sudo dnf copr enable kwizart/cuda-gcc-10.1
 sudo dnf install cuda-gcc cuda-gcc-c++
 </code></pre>
 
 <p>Note that (as of April 20th, 2020) the build for Fedora 32 of <code>cuda-gcc</code> was a
 bit too old and you may have a problem with the <code>libmpfr</code> library. It requires
 the <code>libmpfr.so.4</code>, while <code>libmpfr.so.6</code> is available out-of-the-box in Fedora 32. To make it work, one way is to do the following:</p>
-<pre><code># Build &amp; install MPFR 3.1.6
+<pre><code class="bash"># Build &amp; install MPFR 3.1.6
 wget https://www.mpfr.org/mpfr-3.1.6/mpfr-3.1.6.tar.gz
 tar -xvf mpfr-3.1.6.tar.gz
 cd mpfr-3.1.6
@@ -145,12 +196,12 @@ sudo make install
 
 <p>Then add <code>/usr/local/lib</code> in your \$LD_LIBRARY_PATH variable. You can append the
 path to the variable inside your <code>~/.bashrc</code> file.</p>
-<h3 id="install-cudnn">Install cuDNN</h3>
+<h4 id="install-cudnn">Install cuDNN</h4>
 <p>Follow the instructions
 <a href="https://docs.nvidia.com/deeplearning/sdk/cudnn-install/index.html#installlinux-rpm">here</a>.
 Check by compiling the <code>mnistCUDNN</code> sample program that cuDNN was properly installed</p>
-<h2 id="docker">Docker</h2>
-<h3 id="cgroups-v2-issue">cgroups v2 issue</h3>
+<h3 id="docker">Docker</h3>
+<h4 id="cgroups-v2-issue">cgroups v2 issue</h4>
 <p>At the moment of writing, the official docker package (version 19.03.8) does not
 allow the use of <em>cgroups V2</em> that is enabled by default in Fedora 32. Note that
 <em>cgroups V2</em> will most likely be supported by the version 20.x of docker. So
@@ -166,7 +217,7 @@ sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 
 <p>You need to reboot, and then Docker 19.x will work with Fedora 32.</p>
 <p>Note that <code>podman</code> may be a good replacement of <code>docker</code>.</p>
-<h3 id="ubuntu-image-with-cuda-and-cudnn">Ubuntu image, with CUDA and cuDNN</h3>
+<h4 id="ubuntu-image-with-cuda-and-cudnn">Ubuntu image, with CUDA and cuDNN</h4>
 <p>You can use NVIDIA docker image
 <code>nvcr.io/nvidia/cuda:10.0-cudnn7-runtime-ubuntu18.04</code>. Note that here the
 version of Cuda is 10.0 because I was trying to use <code>tfjs-node-gpu</code> that only
@@ -175,7 +226,7 @@ works with Cuda 10.0 (and not higher).</p>
 and make sure that tensorflow finds <em>libcuda</em> (it will fix the same issue with <code>podman</code>),
 you need to do install the <code>nvidia-docker</code> package. There is no official release
 for Fedora 32, but your can do the <a href="https://github.com/NVIDIA/nvidia-docker/issues/553#issuecomment-381075335">following</a>:</p>
-<pre><code>curl -s -L https://nvidia.github.io/nvidia-docker/centos7/nvidia-docker.repo | \
+<pre><code class="bash">curl -s -L https://nvidia.github.io/nvidia-docker/centos7/nvidia-docker.repo | \
   sudo tee /etc/yum.repos.d/nvidia-docker.repo
 sudo dnf install nvidia-docker2
 sudo pkill -SIGHUP dockerd
@@ -183,20 +234,20 @@ sudo pkill -SIGHUP dockerd
 sudo docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
 </code></pre>
 
-<h3 id="internet-connectivity-problems-within-container">Internet connectivity problems within container</h3>
+<h4 id="internet-connectivity-problems-within-container">Internet connectivity problems within container</h4>
 <p>If you want to make sure that your
 container reach internet, add <code>--network=host</code> when calling <code>docker run</code>.</p>
-<h2 id="podman">Podman</h2>
-<h3 id="make-the-gpu-accessible-by-the-container">Make the GPU accessible by the container</h3>
+<h3 id="podman">Podman</h3>
+<h4 id="make-the-gpu-accessible-by-the-container">Make the GPU accessible by the container</h4>
 <p>If you do not give access to the GPU, the container will not be able to use it.
 For instance, if you plan to use TensorFlow with GPU, it will not work without
 doing the following:</p>
-<pre><code>sudo podman run --privileged #...
+<pre><code class="bash">sudo podman run --privileged #...
 </code></pre>
 
-<h2 id="v4l2loopback">v4l2loopback</h2>
-<h3 id="install">Install</h3>
-<pre><code>sudo dnf install gcc kernel-devel git
+<h3 id="v4l2loopback">v4l2loopback</h3>
+<h4 id="install">Install</h4>
+<pre><code class="bash">sudo dnf install gcc kernel-devel git
 git clone https://&lt;v4l2loopback-repo&gt;/v4l2loopback.git
 cd v4l2loopback
 make &amp;&amp; sudo make install
@@ -204,13 +255,13 @@ sudo depmod -a
 sudo modprobe v4l2loopback
 </code></pre>
 
-<h2 id="system-configuration">System configuration</h2>
-<h3 id="install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</h3>
+<h3 id="system-configuration">System configuration</h3>
+<h4 id="install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</h4>
 <p>Follow the instructions from <a href="https://rpmfusion.org/Howto/NVIDIA#Current_GeForce.2FQuadro.2FTesla">rpmfusion.org's page</a>.
 Alternatively, you can
 also install the official NVIDIA drivers using their installer file. Do not
 forget to blacklist the Nouveau driver before.</p>
-<h3 id="disable-device-wake-up-from-suspend">Disable device wake-up from suspend</h3>
+<h4 id="disable-device-wake-up-from-suspend">Disable device wake-up from suspend</h4>
 <p>You can disable wake-up from suspend changing the properties of the
 <code>/proc/acpi/wakeup</code> file. For instance, <code>sudo echo XHC &gt; /proc/acpi/wakeup</code> will
 toggle the state of the device "XHC". This change is however not permanent. To
@@ -220,10 +271,10 @@ do so, I tried to use the <code>/etc/rc.d/rc.local</code> file, or place an bash
 <a href="https://unix.stackexchange.com/a/532839">here</a>. The advantages here are 1) the
 changes are permanent and no struggle, 2) you disable the specific peripheral
 device while disabling a device in <code>wakeup</code> might mean disabling the whole USB controller.</p>
-<h3 id="add-a-application-shortcut">Add a application shortcut</h3>
+<h4 id="add-a-application-shortcut">Add a application shortcut</h4>
 <p>First, you need to create a desktop file that contains the information of your
 application, for instance:</p>
-<pre><code>[Desktop Entry]
+<pre><code class="bash">[Desktop Entry]
 Type=Application
 Encoding=UTF-8
 Name=Spyder 4.0
@@ -235,11 +286,11 @@ Terminal=false
 
 <p>Second, save the file to <code>/usr/share/applications/</code>.</p>
 <p>Third, and last, run the command <code>sudo update-desktop-database</code>.</p>
-<h3 id="replace-a-package-without-breaking-the-system">Replace a package without breaking the system</h3>
+<h4 id="replace-a-package-without-breaking-the-system">Replace a package without breaking the system</h4>
 <p>If you execute <code>sudo dnf remove pulseaudio-module-bluetooth</code> you may remove the
 whole gnome desktop. A way to replace this package without breaking the system
 is to use a DNF shell as below:</p>
-<pre><code>sudo dnf shell
+<pre><code class="bash">sudo dnf shell
 &gt; dnf remove pulseaudio-module-bluetooth
 &gt; dnf install pulseaudio-module-bluetooth-freeworld
 &gt; run
