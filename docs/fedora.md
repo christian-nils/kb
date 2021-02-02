@@ -6,7 +6,7 @@
 
 There is an issue when compiling where a type mismatch error is raised when
 compiling the file `utils/femgen_f.f`. This error is due to GCC10
-(https://github.com/Unidata/netcdf-fortran/issues/212#issuecomment-600191468).
+([read more...](https://github.com/Unidata/netcdf-fortran/issues/212#issuecomment-600191468)).
 
 To fix this, you will need to pass `-fallow-argument-mismatch` when compiling.
 
