@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Azure DevOps - Knowledge base</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
+
+  <link rel="stylesheet" href="../css/theme.css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Azure DevOps";
+    var mkdocs_page_input_path = "azure.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Knowledge base</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../FreeCAD/">FreeCAD</a>
+                    </li>
+                </ul>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Azure DevOps</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#set-up-python-poetry-in-an-azure-pipeline">Set up Python Poetry in an Azure Pipeline</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#create-nice-repository-badges-for-private-azure-devops-git-repositories">Create nice repository badges for private Azure DevOps git repositories</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#package-version-badge">Package version badge</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#build-badge">Build badge</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../fedora/">Fedora</a>
+                    </li>
+                </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../puckjs/">Puck.JS</a>
+                    </li>
+                </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Knowledge base</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Azure DevOps</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="azure-devops">Azure DevOps</h1>
+<h2 id="set-up-python-poetry-in-an-azure-pipeline">Set up Python Poetry in an Azure Pipeline</h2>
+<p>Copy-paste this code in a <code>azure-pipeline.yaml</code> file, and adapt it to your environment and Artifact feed.</p>
+<pre><code class="yaml">trigger: # trigger the pipeline when the branch &quot;master&quot; is updated (ideally this should be changed to a trigger based on the library version)
+  - master
+
+pool:
+  vmImage: &quot;ubuntu-latest&quot; # Use Ubuntu 
+strategy:
+  matrix:
+    BuildDeployLibrary:
+      python.version: &quot;3.9&quot; # Set up the python version. Technically you don't have to use matrix for a single version. It is usually use if you want to run the pipeline logic with different versions
+      architecture: &quot;x64&quot;
+variables:
+  POETRY_CACHE_DIR: .venv # set the cache directory for Poetry (used for all the next builds, as long as poetry.lock does not change)
+  PIP_CACHE_DIR: $(Pipeline.Workspace)/.pip # set the cache directory for PIP
+
+steps:
+  - checkout: self # checkout the whole git repository
+    persistCredentials: true # needed because the git repository is privates
+
+  - task: UsePythonVersion@0 # enable the right Python version
+    inputs:
+      versionSpec: &quot;$(python.version)&quot;
+    displayName: &quot;Use python $(python.version)&quot;
+
+  - task: Cache@2 # enable the PIP cache, as long as the python version and the agent os are the same, the cache will be reused
+    inputs:
+      key: 'python | &quot;$(Agent.OS)&quot;'
+      restoreKeys: | 
+        python | &quot;$(Agent.OS)&quot;
+        python
+      path: $(PIP_CACHE_DIR)
+    displayName: '[Pip] setup cache'
+
+  - script: | # install pip and install twine (use to upload the built python package to the Artifact feed)
+      python -m pip install --upgrade pip
+      pip install twine
+    displayName: '[Pip] twine installation'
+
+  - task: Cache@2 # set up the Poetry cache. As long as the python version, the agent OS, and the poetry.lock files are the same, the cache will be used to install the dependencies
+    inputs:
+      key: 'python | &quot;$(Agent.OS)&quot; | poetry.lock'
+      restoreKeys: | 
+        python | &quot;$(Agent.OS)&quot;
+        python
+      path: $(POETRY_CACHE_DIR)
+    displayName: '[Poetry] setup cache'
+# install Poetry, and source it. Then set the virtualenvs in the project (to use .venv for the cache directory). Install the dependencies.
+  - script: |
+      curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+      source $HOME/.poetry/env 
+      poetry config virtualenvs.in-project true
+      poetry install
+    displayName: '[Poetry] install dependencies'
+
+# build the library checked out from the git repository
+  - script: |
+      source $HOME/.poetry/env 
+      poetry build
+    displayName: '[Poetry] build library'
+
+# store the credentials to upload the python wheel to the Artifact feed. Replace 'artifactFeed' by the Artifact feed that you created. See https://docs.microsoft.com/en-us/azure/devops/artifacts/concepts/feeds?view=azure-devops
+# Don't forget to go to your created feed's Settings &gt; Permissions. Click on the three dots, and then &quot;Allow project-scoped builds&quot;. Very crappy docs about that. See https://stackoverflow.com/questions/58780741/user-lacks-permission-to-complete-this-action-you-need-to-have-addpackage
+  - task: TwineAuthenticate@1
+    inputs:
+      artifactFeed: 'artifactFeed'
+    displayName: '[Twine] authenticate'
+
+# publish the built package to your artifact. replace artifactFeed by the name of the artifact you created.
+  - script: &quot;twine upload --verbose -r artifactFeed --config-file $(PYPIRC_PATH) dist/*&quot;
+    displayName: '[Twine] publish library'
+</code></pre>
+
+<h2 id="create-nice-repository-badges-for-private-azure-devops-git-repositories">Create nice repository badges for private Azure DevOps git repositories</h2>
+<h3 id="package-version-badge">Package version badge</h3>
+<ol>
+<li>Go to your Artifact Feed (e.g., "artifactFeed")</li>
+<li>Click on the cog icon (at the right)</li>
+<li>Tick the tickbox labeled "Enable package badges"</li>
+<li>You will be able to find the package version badge going to the Artifact tab and click on the three dots on the package row.</li>
+<li>Click on "Create badge" and then follow the instruction to generate the image link.</li>
+</ol>
+<h3 id="build-badge">Build badge</h3>
+<ol>
+<li>Go to your project settings and navigate to Pipelines &gt; Settings</li>
+<li>Disable the slider labelled "Disable anonymous access to badges"</li>
+<li>
+<p>Now, you badge image will be available at <code>https://img.shields.io/azure-devops/build/{organization}/{project-id}/{definition-id}?label={label}</code>.</p>
+<ol>
+<li>To find the project id, go to <code>https://dev.azure.com/{organization}/_apis/projects/{project_name}</code>.</li>
+<li>To find the definition id, you need to navigate to your pipeline in DevOps, look at the URL and you will see something like <code>..._build?definitionId=118</code>, where 118 is the definition id to use in your badge. You can use the parameter "key" in the badge url to change the "Build" label to whatever you want.</li>
+</ol>
+</li>
+</ol>
+<h1 id="azure-functions">Azure Functions</h1>
+<h2 id="include-private-python-package-as-dependency-of-your-azure-functions-app">Include private python package as dependency of your Azure Functions app</h2>
+<p>Set the setting <code>PIP_EXTRA_INDEX_URL={URL_TO_YOUR_ARTIFACT}</code> in your Azure Functions app configuration (via the portal or VSCode extension). The URL_TO_YOUR_ARTIFACT will be of the following form: <code>https://{PAT}@pkgs.dev.azure.com/{organization}/_packaging/{artifactFeed}%40Local/pypi/simple/</code>.  You need to create a PAT via your account, see https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&amp;tabs=preview-page. </p>
+<h2 id="activate-the-cache-on-your-azure-functions-app-to-optimize-the-deployment-speed">Activate the cache on your Azure Functions app to optimize the deployment speed</h2>
+<p>Set the setting <code>WEBSITES_ENABLE_APP_CACHE=true</code> in your Azure Functions app configuration (via the portal or VSCode extension)</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../fedora/" class="btn btn-neutral float-right" title="Fedora">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../FreeCAD/" class="btn btn-neutral" title="FreeCAD"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../FreeCAD/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../fedora/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
