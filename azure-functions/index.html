@@ -9,7 +9,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>FreeCAD - Knowledge base</title>
+  <title>Azure Functions - Knowledge base</title>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700" />
 
   <link rel="stylesheet" href="../css/theme.css" />
@@ -18,8 +18,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "FreeCAD";
-    var mkdocs_page_input_path = "FreeCAD.md";
+    var mkdocs_page_name = "Azure Functions";
+    var mkdocs_page_input_path = "azure-functions.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -51,18 +51,22 @@
                     <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
                     </li>
                 </ul>
-                <ul class="current">
-                    <li class="toctree-l1 current"><a class="reference internal current" href="./">FreeCAD</a>
-    <ul class="current">
-    </ul>
+                <ul>
+                    <li class="toctree-l1"><a class="reference internal" href="../FreeCAD/">FreeCAD</a>
                     </li>
                 </ul>
                 <ul>
                     <li class="toctree-l1"><a class="reference internal" href="../azure-devops/">Azure DevOps</a>
                     </li>
                 </ul>
-                <ul>
-                    <li class="toctree-l1"><a class="reference internal" href="../azure-functions/">Azure Functions</a>
+                <ul class="current">
+                    <li class="toctree-l1 current"><a class="reference internal current" href="./">Azure Functions</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#include-private-python-package-as-dependency-of-your-azure-functions-app">Include private python package as dependency of your Azure Functions app</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#activate-the-cache-on-your-azure-functions-app-to-optimize-the-deployment-speed">Activate the cache on your Azure Functions app to optimize the deployment speed</a>
+    </li>
+    </ul>
                     </li>
                 </ul>
                 <ul>
@@ -94,7 +98,7 @@
     
       
     
-    <li>FreeCAD</li>
+    <li>Azure Functions</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -105,7 +109,11 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="freecad">FreeCAD</h1>
+                <h1 id="azure-functions">Azure Functions</h1>
+<h2 id="include-private-python-package-as-dependency-of-your-azure-functions-app">Include private python package as dependency of your Azure Functions app</h2>
+<p>Set the setting <code>PIP_EXTRA_INDEX_URL={URL_TO_YOUR_ARTIFACT}</code> in your Azure Functions app configuration (via the portal or VSCode extension). The URL_TO_YOUR_ARTIFACT will be of the following form: <code>https://{PAT}@pkgs.dev.azure.com/{organization}/_packaging/{artifactFeed}%40Local/pypi/simple/</code>.  You need to create a PAT via your account, see https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops&amp;tabs=preview-page. </p>
+<h2 id="activate-the-cache-on-your-azure-functions-app-to-optimize-the-deployment-speed">Activate the cache on your Azure Functions app to optimize the deployment speed</h2>
+<p>Set the setting <code>WEBSITES_ENABLE_APP_CACHE=true</code> in your Azure Functions app configuration (via the portal or VSCode extension)</p>
               
             </div>
           </div>
@@ -113,10 +121,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../azure-devops/" class="btn btn-neutral float-right" title="Azure DevOps">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../fedora/" class="btn btn-neutral float-right" title="Fedora">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../azure-devops/" class="btn btn-neutral" title="Azure DevOps"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -142,10 +150,10 @@
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
-        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../azure-devops/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../azure-devops/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../fedora/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
