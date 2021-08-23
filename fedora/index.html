@@ -14,7 +14,7 @@
 
   <link rel="stylesheet" href="../css/theme.css" />
   <link rel="stylesheet" href="../css/theme_extra.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
   
   <script>
     // Current page data
@@ -25,9 +25,8 @@
   
   <script src="../js/jquery-2.1.1.min.js" defer></script>
   <script src="../js/modernizr-2.8.3.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
   <script>hljs.initHighlightingOnLoad();</script> 
-  
 </head>
 
 <body class="wy-body-for-nav" role="document">
@@ -41,7 +40,7 @@
         <a href=".." class="icon icon-home"> Knowledge base</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
   </form>
 </div>
       </div>
@@ -154,6 +153,7 @@
   
   <hr/>
 </div>
+
           <div role="main">
             <div class="section">
               
@@ -166,11 +166,10 @@ compiling the file <code>utils/femgen_f.f</code>. This error is due to GCC10
 <p>To fix this, you will need to pass <code>-fallow-argument-mismatch</code> when compiling.</p>
 <p>You can add the following at the beginning of the file <code>configure</code> in the
 MBDyn repository, and then follow the official instructions:</p>
-<pre><code class="bash"># To fix the type mismatch error when compiling Fortran files due to GCC10
+<pre><code class="language-bash"># To fix the type mismatch error when compiling Fortran files due to GCC10
 FCFLAGS='-fallow-argument-mismatch'
 FFLAGS='-fallow-argument-mismatch'
 </code></pre>
-
 <h2 id="fedora-32">Fedora 32</h2>
 <p>Below are listed all the snippets that once helped me to solve issues.</p>
 <h3 id="cuda-and-cudnn">CUDA and cuDNN</h3>
@@ -178,21 +177,19 @@ FFLAGS='-fallow-argument-mismatch'
 <p>To install CUDA (version 10.2 at the time of writing), I have followed the
 instructions listed on <a href="https://rpmfusion.org/Howto/CUDA">rpmfusion.org's CUDA
 page</a>.</p>
-<pre><code class="bash">sudo dnf config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/fedora29/x86_64/cuda-fedora29.repo
+<pre><code class="language-bash">sudo dnf config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/fedora29/x86_64/cuda-fedora29.repo
 sudo dnf clean all
 sudo dnf install cuda
 </code></pre>
-
 <p>For older versions of Fedora (&gt;29), you need to install the version 8 of the <code>gcc</code>
 compiler that is compatible with the CUDA toolkit (otherwise compilations will fail), you can use the following COPR repository:</p>
-<pre><code class="bash">sudo dnf copr enable kwizart/cuda-gcc-10.1
+<pre><code class="language-bash">sudo dnf copr enable kwizart/cuda-gcc-10.1
 sudo dnf install cuda-gcc cuda-gcc-c++
 </code></pre>
-
 <p>Note that (as of April 20th, 2020) the build for Fedora 32 of <code>cuda-gcc</code> was a
 bit too old and you may have a problem with the <code>libmpfr</code> library. It requires
 the <code>libmpfr.so.4</code>, while <code>libmpfr.so.6</code> is available out-of-the-box in Fedora 32. To make it work, one way is to do the following:</p>
-<pre><code class="bash"># Build &amp; install MPFR 3.1.6
+<pre><code class="language-bash"># Build &amp; install MPFR 3.1.6
 wget https://www.mpfr.org/mpfr-3.1.6/mpfr-3.1.6.tar.gz
 tar -xvf mpfr-3.1.6.tar.gz
 cd mpfr-3.1.6
@@ -201,7 +198,6 @@ make
 make check
 sudo make install
 </code></pre>
-
 <p>Then add <code>/usr/local/lib</code> in your \$LD_LIBRARY_PATH variable. You can append the
 path to the variable inside your <code>~/.bashrc</code> file.</p>
 <h4 id="install-cudnn">Install cuDNN</h4>
@@ -222,7 +218,6 @@ sudo gedit /etc/default/grub
 # Refresh GRUB
 sudo grub2-mkconfig -o /boot/grub2/grub.cfg
 </code></pre>
-
 <p>You need to reboot, and then Docker 19.x will work with Fedora 32.</p>
 <p>Note that <code>podman</code> may be a good replacement of <code>docker</code>.</p>
 <h4 id="ubuntu-image-with-cuda-and-cudnn">Ubuntu image, with CUDA and cuDNN</h4>
@@ -234,14 +229,13 @@ works with Cuda 10.0 (and not higher).</p>
 and make sure that tensorflow finds <em>libcuda</em> (it will fix the same issue with <code>podman</code>),
 you need to do install the <code>nvidia-docker</code> package. There is no official release
 for Fedora 32, but your can do the <a href="https://github.com/NVIDIA/nvidia-docker/issues/553#issuecomment-381075335">following</a>:</p>
-<pre><code class="bash">curl -s -L https://nvidia.github.io/nvidia-docker/centos7/nvidia-docker.repo | \
+<pre><code class="language-bash">curl -s -L https://nvidia.github.io/nvidia-docker/centos7/nvidia-docker.repo | \
   sudo tee /etc/yum.repos.d/nvidia-docker.repo
 sudo dnf install nvidia-docker2
 sudo pkill -SIGHUP dockerd
 # To test that it works, you can use NVIDIA's cuda image
 sudo docker run --runtime=nvidia --rm nvidia/cuda nvidia-smi
 </code></pre>
-
 <h4 id="internet-connectivity-problems-within-container">Internet connectivity problems within container</h4>
 <p>If you want to make sure that your
 container reach internet, add <code>--network=host</code> when calling <code>docker run</code>.</p>
@@ -250,19 +244,17 @@ container reach internet, add <code>--network=host</code> when calling <code>doc
 <p>If you do not give access to the GPU, the container will not be able to use it.
 For instance, if you plan to use TensorFlow with GPU, it will not work without
 doing the following:</p>
-<pre><code class="bash">sudo podman run --privileged #...
+<pre><code class="language-bash">sudo podman run --privileged #...
 </code></pre>
-
 <h3 id="v4l2loopback">v4l2loopback</h3>
 <h4 id="install">Install</h4>
-<pre><code class="bash">sudo dnf install gcc kernel-devel git
+<pre><code class="language-bash">sudo dnf install gcc kernel-devel git
 git clone https://&lt;v4l2loopback-repo&gt;/v4l2loopback.git
 cd v4l2loopback
 make &amp;&amp; sudo make install
 sudo depmod -a
 sudo modprobe v4l2loopback
 </code></pre>
-
 <h3 id="system-configuration">System configuration</h3>
 <h4 id="install-nvidia-graphics-drivers-for-quadro-t1000-notebook">Install NVIDIA graphics drivers for (Quadro T1000 Notebook)</h4>
 <p>Follow the instructions from <a href="https://rpmfusion.org/Howto/NVIDIA#Current_GeForce.2FQuadro.2FTesla">rpmfusion.org's page</a>.
@@ -282,7 +274,7 @@ device while disabling a device in <code>wakeup</code> might mean disabling the 
 <h4 id="add-a-application-shortcut">Add a application shortcut</h4>
 <p>First, you need to create a desktop file that contains the information of your
 application, for instance:</p>
-<pre><code class="bash">[Desktop Entry]
+<pre><code class="language-bash">[Desktop Entry]
 Type=Application
 Encoding=UTF-8
 Name=Spyder 4.0
@@ -291,19 +283,17 @@ Exec=bash -c &quot;source /home/christian-nils/miniconda3/bin/activate myenv &am
 Icon=/home/christian-nils/miniconda3/envs/myenv/lib/python3.7/site-packages/spyder/images/spyder.svg
 Terminal=false
 </code></pre>
-
 <p>Second, save the file to <code>/usr/share/applications/</code>.</p>
 <p>Third, and last, run the command <code>sudo update-desktop-database</code>.</p>
 <h4 id="replace-a-package-without-breaking-the-system">Replace a package without breaking the system</h4>
 <p>If you execute <code>sudo dnf remove pulseaudio-module-bluetooth</code> you may remove the
 whole gnome desktop. A way to replace this package without breaking the system
 is to use a DNF shell as below:</p>
-<pre><code class="bash">sudo dnf shell
+<pre><code class="language-bash">sudo dnf shell
 &gt; dnf remove pulseaudio-module-bluetooth
 &gt; dnf install pulseaudio-module-bluetooth-freeworld
 &gt; run
 </code></pre>
-
 <p>The module bluetooth-freeworld will replace the module bluetooth without
 breaking the dependencies.</p>
               
@@ -339,17 +329,18 @@ breaking the dependencies.</p>
   </div>
 
   <div class="rst-versions" role="note" aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      
-      
-        <span><a href="../azure-functions/" style="color: #fcfcfc;">&laquo; Previous</a></span>
-      
-      
-        <span style="margin-left: 15px"><a href="../puckjs/" style="color: #fcfcfc">Next &raquo;</a></span>
-      
-    </span>
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../azure-functions/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../puckjs/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
 </div>
     <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
     <script src="../js/theme.js" defer></script>
       <script src="../search/main.js" defer></script>
     <script defer>
